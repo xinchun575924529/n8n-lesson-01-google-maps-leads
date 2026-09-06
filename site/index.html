@@ -46,30 +46,41 @@
   <div class="foot">n8n 工作流视频教案 · 用 n8n 学和教 n8n</div>
 </div>
 <script>
+// 内容路径：页面与 md 同根时用相对路径（GitHub Pages）；
+// 单页托管（阿里云 n8n webhook / 本地直接打开）时回退到 GitHub raw。
+const RAW='https://raw.githubusercontent.com/xinchun575924529/n8n-lesson-01-google-maps-leads/main/';
 const docs=[
-  ['课程主页','../README.md'],
-  ['00 总览','../docs/00-overview.md'],
-  ['01 异步发现','../docs/01-discovery.md'],
-  ['02 缺口评分','../docs/02-scoring.md'],
-  ['03 去重冷却','../docs/03-dedupe.md'],
-  ['04 AI 简报','../docs/04-ai-brief.md'],
-  ['05 入库播报','../docs/05-publishing.md'],
-  ['口播稿','../script/short-video.md'],
-  ['练习','../exercises/exercises.md'],
+  ['课程主页','README.md'],
+  ['00 总览','docs/00-overview.md'],
+  ['01 异步发现','docs/01-discovery.md'],
+  ['02 缺口评分','docs/02-scoring.md'],
+  ['03 去重冷却','docs/03-dedupe.md'],
+  ['04 AI 简报','docs/04-ai-brief.md'],
+  ['05 入库播报','docs/05-publishing.md'],
+  ['口播稿','script/short-video.md'],
+  ['练习','exercises/exercises.md'],
 ];
 const nav=document.getElementById('nav');
 docs.forEach((d,i)=>{const a=document.createElement('a');a.textContent=d[0];a.href='#/'+i;a.dataset.i=i;nav.appendChild(a);});
 function cur(){const m=location.hash.match(/#\/(\d+)/);return m?Number(m[1]):0}
+async function fetchText(path){
+  // 先试相对路径（同根部署场景），失败则回退 GitHub raw（单页托管场景）
+  try{
+    const r=await fetch(path,{cache:'no-store'});
+    if(r.ok)return await r.text();
+  }catch(e){/* 继续走 raw */}
+  const r2=await fetch(RAW+path,{cache:'no-store'});
+  if(!r2.ok)throw new Error('HTTP '+r2.status);
+  return await r2.text();
+}
 async function show(i){
   nav.querySelectorAll('a').forEach(a=>a.className=Number(a.dataset.i)===i?'on':'');
   const el=document.getElementById('doc');el.innerHTML='<p class="lb">加载中…</p>';
   try{
-    const r=await fetch(docs[i][1]);
-    if(!r.ok)throw new Error(r.status);
-    const t=await r.text();
+    const t=await fetchText(docs[i][1]);
     document.title=docs[i][0]+' · n8n 教案';
     el.innerHTML=marked.parse(t);
-  }catch(e){el.innerHTML='<p>加载失败：'+e.message+'（本地预览请确保 docs 目录存在；线上访问 pages 站点）</p>'}
+  }catch(e){el.innerHTML='<p>加载失败：'+e.message+'</p>'}
 }
 window.addEventListener('hashchange',()=>show(cur()));
 show(cur());
