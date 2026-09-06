@@ -33,6 +33,7 @@
 ```
 lesson-01-google-maps-leads/
 ├── README.md                  ← 你在这里
+├── workflow.json              ← 可直接导入 n8n 的真实工作流（32 节点）
 ├── docs/
 │   ├── 00-overview.md         模板全局拆解（32 节点地图 + 数据流向总览 + 凭证映射）
 │   ├── 01-discovery.md        Bright Data 异步发现（触发 → 快照轮询 → 下载）
@@ -49,6 +50,13 @@ lesson-01-google-maps-leads/
 ```
 
 每节文档统一结构：**先结论 → 再拆解 → 坑点提示 → 动手练习**。
+
+## 立即动手：导入本工作流
+
+1. 下载 [`workflow.json`](workflow.json)（或直接复制 [raw 链接](https://raw.githubusercontent.com/xinchun575924529/n8n-lesson-01-google-maps-leads/main/workflow.json)）
+2. n8n 界面右上角 → **Import from File**（或 CLI：`n8n import:workflow --input=workflow.json`）
+3. 按 [`docs/00-overview.md`](docs/00-overview.md) 的凭证映射表补齐 4 个连接（Bright Data / Google Sheets / Slack / OpenAI·可换 DeepSeek）
+4. 修改 **Set Search Config** 里的 `city` 和 `categories` 即可跑起来
 
 ## 快捷链接
 
