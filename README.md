@@ -63,3 +63,11 @@ lesson-01-google-maps-leads/
 - 模板公开页：[n8n.io/workflows/18238](https://n8n.io/workflows/18238/)
 - 本机已验证：**31/31 单元断言全部通过**（7 个 Code 节点），可放心在此教案基础上二次开发。
 - REST API 获取原始模板 JSON：`https://api.n8n.io/api/workflows/templates/18238`
+
+---
+
+## 🛠️ 远程部署服务 ¥99
+
+不想自己折腾环境？工程师 ToDesk/向日葵 远程帮你把本课工作流装好调通（单课 × 1 次，≤60 分钟）。
+
+👉 [立即购买部署服务](https://n8nbox.cn/cashier?item=svc-remote-deploy-01)
